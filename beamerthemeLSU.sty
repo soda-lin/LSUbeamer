@@ -1,0 +1,278 @@
+%=============================================================
+%   beamerthemeLSU.sty  --  LSU Minimal Version (EN ONLY)
+%=============================================================
+
+\NeedsTeXFormat{LaTeX2e}[2005/12/01]
+\ProvidesPackage{beamerthemeLSU}[LSU]
+
+\mode<presentation>
+
+%----------------- Packages -----------------
+\RequirePackage{fontspec}
+\RequirePackage{tikz}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{skins}
+\RequirePackage{graphicx}
+
+%----------------- Fonts (English Only) -----------------
+\setmainfont{TeX Gyre Termes}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{Inconsolata}
+
+\usefonttheme{professionalfonts}
+
+\setbeamerfont{normal text}{family=\rmfamily, series=\mdseries}
+
+%---------------------------------------------------------
+% Options
+%---------------------------------------------------------
+
+\newif\ifbeamer@showheader
+\newif\ifbeamer@colorblocks
+\newif\ifbeamer@noframetitlerule
+
+\beamer@showheaderfalse
+\beamer@colorblocksfalse
+\beamer@noframetitlerulefalse
+
+\DeclareOptionBeamer{showheader}{\beamer@showheadertrue}
+\DeclareOptionBeamer{colorblocks}{\beamer@colorblockstrue}
+\DeclareOptionBeamer{noframetitlerule}{\beamer@noframetitleruletrue}
+\ProcessOptionsBeamer
+
+\def\lecturename{Lecture}
+
+\newcommand{\email}[1]{\def\@email{#1}}
+\email{}  % default empty, prevents errors
+
+%=====================================================
+%   LSU COLOR THEME
+%=====================================================
+
+\definecolor{LSUPurple}{RGB}{70,29,124}
+\definecolor{TitlePurple}{RGB}{65,0,102}
+\definecolor{LSUGold}{RGB}{253,208,35}
+
+\definecolor{LightPurple}{RGB}{120,80,170}
+\definecolor{DarkPurple} {RGB}{55,15,100}
+\definecolor{Veronagray} {RGB}{100,100,105}
+\definecolor{LightGray}  {RGB}{220,220,225}
+
+% Backward-compatible names
+\definecolor{Veronablue}   {RGB}{70,29,124}
+\definecolor{LZUBlue}      {RGB}{70,29,124}
+\definecolor{Veronared}    {RGB}{152,0,0}
+\definecolor{Veronagreen}  {RGB}{0,152,0}
+\definecolor{Veronaorange} {RGB}{238,118,0}
+
+%=====================================================
+%   COLORS
+%=====================================================
+
+\setbeamercolor*{structure}{fg=LSUPurple}
+
+\setbeamercolor*{section in head/foot}{fg=LSUGold,bg=LSUPurple}
+\setbeamercolor*{subsection in head/foot}{fg=LSUGold,bg=}
+\setbeamercolor*{title in head/foot}{fg=Veronagray,bg=}
+\setbeamercolor*{author in head/foot}{fg=Veronagray,bg=}
+\setbeamercolor*{date in head/foot}{fg=Veronagray,bg=}
+
+\setbeamercolor*{title}{fg=white,bg=TitlePurple}
+\setbeamercolor*{sectiontitle}{fg=LSUGold,bg=LSUPurple}
+\setbeamercolor*{subtitle}{fg=white}
+\setbeamercolor*{author}{fg=black}
+\setbeamercolor*{date}{fg=black}
+
+\ifbeamer@colorblocks
+  \setbeamercolor{block title}{fg=LSUGold,bg=LSUPurple}
+  \setbeamercolor{block body}{bg=LSUPurple!05}
+\fi
+
+%=====================================================
+%   FONT CONFIGURATION
+%=====================================================
+
+\setbeamerfont*{title}{size=\Huge,series=\bfseries,family=\rmfamily}
+\setbeamerfont*{subtitle}{family=\rmfamily,size=\normalsize}
+\setbeamerfont*{frametitle}{size=\Large,series=\bfseries,family=\rmfamily}
+\setbeamerfont*{author}{size=\small,series=\bfseries,family=\rmfamily}
+\setbeamerfont*{date}{family=\rmfamily,size=\footnotesize}
+
+%=====================================================
+%   NAVIGATION SYMBOLS
+%=====================================================
+
+\setbeamertemplate{navigation symbols}{}
+
+%=====================================================
+%   TITLE PAGE
+%=====================================================
+
+
+\setbeamertemplate{title page}
+{%
+  \begingroup
+  \begin{tikzpicture}[overlay,remember picture]
+
+    \draw[fill=TitlePurple,draw=none]
+      (current page.north west) rectangle (\paperwidth,-.3cm);
+
+    \draw[line width=4mm,xshift=-3mm,draw=LSUGold!90,yshift=-1mm]
+      (0,0) -- (\paperwidth,0);
+
+    \node[anchor=north east]
+      at (\paperwidth-8pt,.5\paperheight-25pt)
+      {\includegraphics[width=4cm]{figures/LSU_Tigers4.jpg}};
+      
+    \node[anchor=south east]
+      at (current page.south east)
+      {\hspace{-1cm}\raisebox{0.8cm}{\includegraphics[width=4cm]{figures/LSU.jpg}}};
+  
+    \node[anchor=south west,align=left] at (0,.25) {
+      \parbox{12cm}{
+        \usebeamerfont{title}\color{white}\inserttitle\par
+        \ifx\insertsubtitle\@empty\else
+          \vskip.5ex
+          {\usebeamerfont{subtitle}\color{white}\insertsubtitle\par}
+        \fi
+      }
+    };
+
+    % Author / Email / Institute / Date
+\node[anchor=north west,align=left] at (0,-.9) {
+  \parbox{10cm}{
+    {\usebeamerfont{author}\color{black}\insertauthor}
+    \vskip1mm
+    {\small\ttfamily\color{LSUGold}\@email}
+    \vskip2mm
+    \usebeamerfont{institute}\color{black}\insertinstitute
+    \vskip2mm
+    \usebeamerfont{date}\insertdate
+  }
+};
+
+
+  \end{tikzpicture}
+  \endgroup
+}
+
+%=====================================================
+%   FRAME TITLE
+%=====================================================
+
+\newlength{\frametitlesidebar}
+\setlength{\frametitlesidebar}{\dimexpr(\paperwidth-1cm)}
+
+\setbeamertemplate{frametitle}
+{%
+  \begin{beamercolorbox}[sep=0.2cm,leftskip=-0.8cm,wd=\textwidth]{frametitle}
+    \usebeamerfont{frametitle}
+    \insertframetitle
+  \end{beamercolorbox}
+
+  \begin{tikzpicture}[overlay]
+
+    \draw[line width=1mm,draw=LSUPurple,yshift=2.5ex]
+        (-0.5cm,0) -- (\paperwidth-1cm,0);
+
+    \node[anchor=mid east]
+        at (\paperwidth-1cm, 0.95cm)
+        {\includegraphics[height=0.4cm]{figures/lsu_logo.png}};
+
+  \end{tikzpicture}
+
+  \vspace{-0.3cm}
+}
+
+%=====================================================
+%   FOOTLINE
+%=====================================================
+
+\setbeamertemplate{footline}
+{%
+\begin{tikzpicture}[overlay]
+
+  \def\leftX{0cm}
+  \def\rightX{\paperwidth}
+  \def\yPos{0mm}
+
+  \draw[draw=LSUGold!85, line width=0.6pt]
+    (\leftX,\yPos) -- (\rightX,\yPos);
+
+  \draw[fill=LSUPurple,draw=LSUPurple]
+    (\leftX-0.5mm,\yPos-0.5mm) rectangle ++ (1mm,1mm);
+
+  \draw[fill=LSUPurple,draw=LSUPurple]
+    (\rightX-0.5mm,\yPos-0.5mm) rectangle ++ (1mm,1mm);
+
+\end{tikzpicture}
+
+\leavevmode%
+\hbox{%
+\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.4ex,dp=1ex,left]{author in head/foot}
+  \hspace*{0.3cm}\usebeamerfont{author in head/foot}\insertshortauthor
+\end{beamercolorbox}%
+\begin{beamercolorbox}[wd=.34\paperwidth,ht=2.4ex,dp=1ex,center]{title in head/foot}
+  \usebeamerfont{title in head/foot}\insertshorttitle
+\end{beamercolorbox}%
+\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.4ex,dp=1ex,right]{date in head/foot}
+  \usebeamerfont{date in head/foot}\insertshortdate
+  \hspace*{0.5em}\insertframenumber{} / \inserttotalframenumber\hspace*{0.4cm}
+\end{beamercolorbox}%
+}%
+}
+
+% =====================================================
+%   LSU Thank You page (with contact info)
+% =====================================================
+
+\newcommand{\LSUThankYou}[2]{
+
+\begin{frame}[plain]
+
+\begin{tikzpicture}[overlay, remember picture]
+
+% Background gradient
+\path[shade, left color=LSUPurple!90, right color=DarkPurple]
+  (current page.south west) rectangle (current page.north east);
+
+% Bottom-right LSU logo
+\node[anchor=south east] at (current page.south east)
+  {\hspace{-0.8cm}\raisebox{0.8cm}{\includegraphics[width=2.5cm]{figures/LSU_Tigers4.jpg}}};
+
+% Main text
+\node[align=center] at (current page.center) {
+
+    \Huge\color{white}\bfseries
+    Thank you for your attention! \\[0.7cm]
+
+    \Large\color{LSUGold}\textbf{Questions \& Discussion} \\[1cm]
+    
+    \normalsize\color{white}\bfseries
+    #1 \\[2pt]
+    
+    \normalsize\color{white}
+    \texttt{#2}
+};
+
+\end{tikzpicture}
+
+\end{frame}
+}
+
+
+
+%=====================================================
+%   GENERAL LAYOUT
+%=====================================================
+
+\setbeamersize{text margin left=8mm,text margin right=8mm}
+
+\renewcommand{\maketitle}{
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+}
+
+\mode<all>
+\endinput

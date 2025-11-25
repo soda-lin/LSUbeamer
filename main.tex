@@ -1,0 +1,268 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass[
+10pt,
+aspectratio=169
+]{beamer}
+
+\usetheme{LSU}
+\usefonttheme{professionalfonts}
+\setbeamercovered{transparent=10}
+
+% ==================== FONTS ====================
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{Inconsolata}
+
+% ==================== CORE PACKAGES ====================
+\usepackage{tikz}
+\usetikzlibrary{fadings}
+
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{bm}
+\usepackage[ruled]{algorithm2e}
+
+\setbeamertemplate{caption}[numbered]
+
+% ==================== TOC STYLE ====================
+\setbeamertemplate{section in toc}
+{\hspace*{1em}\inserttocsectionnumber.~\inserttocsection\par}
+
+\setbeamertemplate{subsection in toc}
+{\hspace*{2em}\inserttocsectionnumber.\inserttocsubsectionnumber.~\inserttocsubsection\par}
+
+\setbeamerfont{subsection in toc}{size=\small}
+
+% % ==================== SECTION PAGE ====================
+% \AtBeginSection[]{
+% 	\begin{frame}
+% 		\frametitle{Contents}
+% 		\tableofcontents[currentsection,hideallsubsections]
+% 	\end{frame}
+% }
+
+% ==================== MACROS ====================
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+
+
+\makeatletter
+\newcommand{\rmnum}[1]{\romannumeral #1}
+\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+\newcommand{\upcite}[1]{\textsuperscript{\cite{#1}}}
+
+% ==================== TITLE INFO ====================
+\title{YOUR TITLE}
+\subtitle{SUBTITLE}
+\author[Huakang Lin]{Huakang Lin}
+\email{hlin29@lsu.edu}
+\institute[LSU]{Computer Science and Engineering\\Louisiana State University}
+\date{\today}
+
+\begin{document}
+
+% ==================== TITLE PAGE ====================
+\maketitle
+
+%==============================
+\section{Introduction}
+%==============================
+
+\begin{frame}{Background}
+\begin{itemize}
+    \item Modern cloud platforms process massive and heterogeneous job requests.
+    \item Resource availability in these systems is \textbf{highly dynamic}.
+    \item Inaccurate resource estimation can lead to:
+    \begin{itemize}
+        \item Over-provisioning (resource waste)
+        \item Under-provisioning (job failures)
+    \end{itemize}
+    \item This motivates the study of \textbf{uncertainty-aware scheduling}.
+\end{itemize}
+\end{frame}
+
+
+%==============================
+\section{Related Work}
+%==============================
+
+\begin{frame}{Related Work}
+
+\begin{itemize}
+    \item Predictive scheduling has been widely studied in cloud computing systems \cite{Hangdong2020}.
+    \item Recent work explores learning-based resource allocation strategies \cite{Mo2019}.
+    \item However, most existing methods:
+    \begin{itemize}
+        \item Assume a fixed resource distribution
+        \item Ignore workload volatility
+        \item Do not consider user experience
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+%==============================
+\section{Motivation}
+%==============================
+
+\begin{frame}{Motivation}
+
+\begin{columns}
+\column{0.6\textwidth}
+\begin{itemize}
+    \item Workloads in practice are highly unpredictable
+    \item Cloud capacity follows irregular patterns
+    \item Static scheduling policies fail under uncertainty
+    \item We aim to design a:
+    \begin{itemize}
+        \item Robust
+        \item Adaptive
+        \item User-aware
+    \end{itemize}
+    scheduling mechanism
+\end{itemize}
+
+\column{0.4\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{example-image-a}
+    \caption{Dynamic resource demand}
+\end{figure}
+\end{columns}
+
+\end{frame}
+
+
+%==============================
+\section{Problem Formulation}
+%==============================
+
+\begin{frame}{Problem Formulation}
+
+The scheduling problem is formulated as:
+
+\[
+\max_{\mathbf{x}} \quad \sum_{i=1}^{N} v_i x_i
+\]
+
+subject to:
+
+\[
+\sum_{i=1}^{N} r_i x_i \leq \hat{C} + \delta
+\]
+
+where
+
+\begin{itemize}
+    \item $x_i \in \{0,1\}$ — whether job $i$ is selected
+    \item $v_i$ — priority or value
+    \item $r_i$ — resource requirement
+    \item $\hat{C}$ — predicted available capacity
+    \item $\delta$ — uncertainty margin
+\end{itemize}
+
+This is an instance of \textbf{stochastic resource-constrained optimization}.
+
+\end{frame}
+
+
+%==============================
+\section{Algorithm Design}
+%==============================
+
+\begin{frame}{Proposed Method}
+
+\textbf{Main components:}
+
+\begin{enumerate}
+    \item Probabilistic resource estimation
+    \item Risk-aware job admission control
+    \item Priority-based selection strategy
+\end{enumerate}
+
+\bigskip
+
+\textbf{Objective:}
+
+\begin{itemize}
+    \item Maximize total utility
+    \item Minimize resource violation risk
+    \item Improve fairness among users
+\end{itemize}
+
+\end{frame}
+
+
+%==============================
+\section{Experimental Setup}
+%==============================
+
+\begin{frame}{Experimental Setup}
+
+\begin{itemize}
+    \item Platform: Simulated cloud cluster
+    \item Jobs: Synthetic + real workload traces
+    \item Metrics:
+    \begin{itemize}
+        \item Resource utilization
+        \item Throughput
+        \item Violation rate
+    \end{itemize}
+    \item Compared against:
+    \begin{itemize}
+        \item Greedy scheduling
+        \item Random selection
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+%==============================
+\section{Conclusion}
+%==============================
+
+\begin{frame}{Conclusion}
+
+\begin{itemize}
+    \item We study scheduling under uncertain resource availability.
+    \item We design an uncertainty-aware scheduling framework.
+    \item Experiments show:
+    \begin{itemize}
+        \item Higher utilization
+        \item Lower violation rates
+        \item Better fairness
+    \end{itemize}
+    \item Future work:
+    \begin{itemize}
+        \item Multi-resource scheduling
+        \item Real-world deployment
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+%==============================
+\section{References}
+%==============================
+
+\begin{frame}[allowframebreaks]{References}
+\footnotesize
+\bibliographystyle{IEEEtran}
+\bibliography{References}
+\end{frame}
+
+
+% ==================== THANK YOU ====================
+
+\LSUThankYou{Huakang Lin}{hlin29@lsu.edu}
+
+\end{document}
